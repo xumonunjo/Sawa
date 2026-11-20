@@ -14,7 +14,8 @@ h1.wordmark{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflo
 #drum{display:block;width:min(100%,74svh,760px);height:auto;margin:auto;touch-action:none;user-select:none;-webkit-user-select:none}
 .pad{pointer-events:fill;fill:#fff1a9;fill-opacity:0;cursor:pointer;transition:fill-opacity .15s}
 #drum{overflow:visible;margin-bottom:14px}
-.ripple{pointer-events:none;transform-box:fill-box;transform-origin:center;animation:ripple .42s ease-out forwards;mix-blend-mode:screen}
+#drum,#drum *{-webkit-tap-highlight-color:transparent}
+.ripple{pointer-events:none;transform-box:fill-box;transform-origin:center;animation:ripple .42s ease-out forwards}
 @keyframes ripple{0%{transform:scale(.48);opacity:.64}35%{opacity:.45}100%{transform:scale(1.32);opacity:0}}
 #drum.guides-off .guide,#drum.guides-off .ripple{display:none}
 #drum.guides-off .pad:is(.sampler-selected,.track-selected,.adjusting):not(:focus-visible){fill-opacity:0;stroke:none}
@@ -190,9 +191,10 @@ main,.studio,.studio-body,.controls>*{min-width:0}
 .signal-rail::before{opacity:.14}
 .signal-lit{clip-path:inset(100% 0 0 0)}
 </style>
+<body class="circle-only">
 <main id="instrument-stage">
 <h1 class="wordmark">SÂAWAH</h1>
-<svg id="drum" viewBox="-78 -84 1260 1164" role="group" aria-label="Tambour et cloche, quinze zones de frappe et un glissé sur la peau">
+<svg id="drum" viewBox="-6 -78 1216 1134" data-studio-view-box="-78 -84 1260 1164" role="group" aria-label="Tambour et cloche, quinze zones de frappe et un glissé sur la peau">
 <defs><radialGradient id="skin-light">
 <stop offset="0" stop-color="#ffe6b3" stop-opacity=".72"/>
 <stop offset=".42" stop-color="#e8a55f" stop-opacity=".41"/>
@@ -1215,7 +1217,7 @@ for (const type of ['pointerup','pointercancel','lostpointercapture']) {
   });
 }
 const guideToggle = document.querySelector('#guide-toggle');
-let circleOnly = false;
+let circleOnly = document.body.classList.contains('circle-only');
 function setGuides(enabled) {
   surface.classList.toggle('guides-off',!enabled);
   guideToggle.setAttribute('aria-pressed',enabled);
@@ -1231,11 +1233,12 @@ guideToggle.addEventListener('click', () => {
 });
 const openCircle = document.querySelector('#drum-fullscreen');
 const closeCircle = document.querySelector('#leave-fullscreen');
-const normalViewBox = surface.getAttribute('viewBox') || '-78 -84 1260 1164';
+const normalViewBox = surface.dataset.studioViewBox;
+const playViewBox = surface.getAttribute('viewBox');
 function setCircleOnly(active) {
   circleOnly = active;
   document.body.classList.toggle('circle-only',active);
-  surface.setAttribute('viewBox',active ? '-6 -78 1216 1134' : normalViewBox);
+  surface.setAttribute('viewBox',active ? playViewBox : normalViewBox);
   volumeReadout.hidden = true;
 }
 openCircle.addEventListener('click', event => {
@@ -2685,4 +2688,5 @@ languagePicker.addEventListener('change',() => {
 });
 
 </script>
+</body>
 </html>

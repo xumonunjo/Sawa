@@ -271,6 +271,7 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
       <ul>
         <li>Touche <strong>Activer le son</strong>, puis frappe le centre pour le grave, les anneaux pour les sons plus secs et le bord pour les graines.</li>
         <li>Balaye le bord pour faire sonner les perles. Glisse le long de l’axe vertical pour faire monter ou descendre la hauteur du son. La cloche et le fil du nom se jouent aussi.</li>
+        <li>Sur un écran ou un stylet qui transmet la pression, joue doucement ou fort pour varier le volume de la frappe.</li>
         <li>Touche une zone pour la sélectionner dans le séquenceur et le sampler. Active <strong>Repères</strong> pour afficher les réglages du pad. Pour doser son volume au doigt, maintiens la zone puis suis son arc.</li>
       </ul>
     </details>
@@ -604,6 +605,11 @@ function svg(tag, attributes, parent = surface) {
   parent.append(node);
   return node;
 }
+function strikeVelocity(event) {
+  const pressure = event?.pressure;
+  if (event?.pointerType === 'mouse' || !(pressure > 0)) return 100;
+  return Math.round(18 + 82 * Math.min(1,pressure)**.8);
+}
 function bindPlayablePad(pad,voice,playInput,storageKey,angleAt,brush = false) {
   voice.volumeKey = storageKey;
   try {
@@ -615,7 +621,7 @@ function bindPlayablePad(pad,voice,playInput,storageKey,angleAt,brush = false) {
     try {pad.setPointerCapture(event.pointerId);} catch {}
     const contact = touchPoint(event);
     const angle = angleAt(event,contact);
-    const hold = {pad,angle, adjusting:false, played:false, brushing:false,
+    const hold = {pad,angle,contact,velocity:strikeVelocity(event), adjusting:false, played:false, brushing:false,
       slideStart:brush && skinSlideOrigin(contact) ? contact : null,
       lastBrushAngle:angle, brushable:brush && contact && Math.hypot(contact.x-490,contact.y-495)>=420};
     holds.set(event.pointerId,hold);
@@ -626,7 +632,7 @@ function bindPlayablePad(pad,voice,playInput,storageKey,angleAt,brush = false) {
     },holdDelay);
     if (!hold.slideStart && (event.pointerType === 'mouse' || audio?.state === 'running')) {
       hold.played = true;
-      playInput(event,contact);
+      playInput(event,contact,hold.velocity);
     }
   });
   pad.addEventListener('pointermove',event => {
@@ -656,7 +662,7 @@ function bindPlayablePad(pad,voice,playInput,storageKey,angleAt,brush = false) {
     } else if (hold.slide) {
       finishSkinSlide(hold);
     } else if (event.type === 'pointerup' && !hold.played && !hold.brushing) {
-      playInput(event);
+      playInput(event,hold.contact,hold.velocity);
     }
   }
   pad.addEventListener('pointerup',finishHold);
@@ -689,13 +695,13 @@ for (let slice=0;slice<3;slice++) {
     const storageKey = `tambour-volume-${slice}-${ring}`;
     voice.volume = 100;
     voice.label = `${names[ring]} · ${colors[slice]}`;
-    const play = (event,contact = event ? touchPoint(event) : null) => {
-      strike(voice,contact ? [contact.x,contact.y] : center);
+    const play = (event,contact = event ? touchPoint(event) : null,velocity = 100) => {
+      strike(voice,contact ? [contact.x,contact.y] : center,undefined,velocity);
     };
     const trackIndex = ring*3+slice;
-    const playInput = (event,contact) => {
-      play(event,contact);
-      followInput(trackIndex);
+    const playInput = (event,contact,velocity) => {
+      play(event,contact,velocity);
+      followInput(trackIndex,velocity);
     };
     shortcuts.set(keys[slice][ring],playInput);
     tracks[trackIndex] = {voice, pad, play, schedule: (time,level) => strike(voice,center,time,level)};
@@ -724,8 +730,8 @@ const strands = Array.from({length:32},(_,index) => {
   svg('path',{d:`M 2 ${length-6} q -2 6 0 12`,fill:'none',stroke:'#8b7359','stroke-width':1.05},cord);
   return {x,y,angle,index,cord,animation:null};
 });
-function followInput(index) {
-  recordHit(index);
+function followInput(index,velocity = 100) {
+  recordHit(index,false,velocity);
   selectTrack(index);
 }
 const [bellX,bellY] = polar(489,0);
@@ -766,7 +772,10 @@ for (const [part,definition] of bellVoices.entries()) {
     transform:`translate(${bellX+48} ${bellY-82}) scale(4.05)`,
     class:'pad bell-pad',role:'button',tabindex:0,'aria-label':voice.label});
   const play = () => strike(voice,center);
-  const playInput = () => {play(); followInput(index);};
+  const playInput = (_event,_contact,velocity) => {
+    strike(voice,center,undefined,velocity);
+    followInput(index,velocity);
+  };
   tracks.push({voice,pad,play,schedule:(time,level) => strike(voice,center,time,level)});
   bindPlayablePad(pad,voice,playInput,`sawa-bell-volume-${part}`,(_event,point) =>
     point ? Math.atan2(point.y-center[1],point.x-center[0]+135) : null);
@@ -800,9 +809,9 @@ function playWire(point = wireCenter,time,level) {
     ],{duration:280,easing:'ease-out'});
   },delay);
 }
-const wireInput = (_event,point) => {
-  playWire(point ? [point.x,point.y] : wireCenter);
-  followInput(wireIndex);
+const wireInput = (_event,point,velocity) => {
+  playWire(point ? [point.x,point.y] : wireCenter,undefined,velocity);
+  followInput(wireIndex,velocity);
 };
 tracks.push({voice:wireVoice,pad:wirePad,play:()=>playWire(),schedule:(time,level)=>playWire(wireCenter,time,level)});
 bindPlayablePad(wirePad,wireVoice,wireInput,'sawa-wire-volume',touchAngle);
@@ -1058,13 +1067,14 @@ function brushRim(gesture,event,point = touchPoint(event)) {
     animateThread(strand, direction*(Math.cos(strand.angle)>=0 ? -1 : 1)*18,630);
     if (hop<3) {
       if (hop===0) selectTrack(beadTrack);
-      const slot = recordHit(beadTrack,true);
+      const velocity = strikeVelocity(event);
+      const slot = recordHit(beadTrack,true,velocity);
       if (slot !== undefined) {
         const hits = beadTakes[slot] ??= [];
         if (hits.length<8) hits.push(index);
         savePattern();
       }
-      setTimeout(() => soundThread(index),hop*26);
+      setTimeout(() => soundThread(index,undefined,velocity),hop*26);
     }
     if (index === 0) swingThreads([bellX,bellY]);
   }
@@ -1080,7 +1090,7 @@ surface.addEventListener('pointerdown', event => {
   const angle = touchAngle(event);
   const slice = Math.floor(((angle+Math.PI/2+2*Math.PI)%(2*Math.PI))/(2*Math.PI/3));
   edgeDrag.set(event.pointerId,{angle,slideStart:skinSlideOrigin(point) ? point : null,
-    rimTrack:radius<=504 ? 9+slice : undefined});
+    rimTrack:radius<=504 ? 9+slice : undefined,velocity:strikeVelocity(event)});
 });
 surface.addEventListener('pointermove',event => {
   const gesture = edgeDrag.get(event.pointerId);
@@ -1091,8 +1101,8 @@ for (const type of ['pointerup','pointercancel','lostpointercapture']) {
     const gesture = edgeDrag.get(event.pointerId);
     if (gesture?.slide) finishSkinSlide(gesture);
     else if (type === 'pointerup' && gesture && !gesture.brushing && gesture.rimTrack !== undefined) {
-      tracks[gesture.rimTrack].play();
-      followInput(gesture.rimTrack);
+      tracks[gesture.rimTrack].play(undefined,null,gesture.velocity);
+      followInput(gesture.rimTrack,gesture.velocity);
     }
     edgeDrag.delete(event.pointerId);
   });
@@ -1544,14 +1554,14 @@ function setRecording(active) {
     ? 'Joue sur le tambour. Les frappes se calent sur le pas le plus proche.'
     : 'Prise terminée.';
 }
-function recordHit(track,capture = false) {
+function recordHit(track,capture = false,velocity = 100) {
   if (!recording || !clock || audio.state !== 'running') return;
   const now = audio.currentTime;
   const nearest = [...recentSteps,{index:step,time:nextBeat}]
     .reduce((best,candidate) => Math.abs(candidate.time-now)<Math.abs(best.time-now) ? candidate : best);
   const target = nearest.index;
   if (pattern[track][target]) return capture ? target : undefined;
-  pattern[track][target] = 100;
+  pattern[track][target] = velocity;
   cells[track][target].refreshLevel();
   savePattern();
   return target;

@@ -271,7 +271,7 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
       <ul>
         <li>Touche <strong>Activer le son</strong>, puis frappe le centre pour le grave, les anneaux pour les sons plus secs et le bord pour les graines.</li>
         <li>Balaye le bord pour faire sonner les perles. Glisse le long de l’axe vertical pour faire monter ou descendre la hauteur du son. La cloche et le fil du nom se jouent aussi.</li>
-        <li>Sur un écran ou un stylet qui transmet la pression, joue doucement ou fort pour varier le volume de la frappe.</li>
+        <li>La pression fait varier le volume de la frappe. Si l’écran fournit seulement la taille du contact, joue avec le bout du doigt pour un son plus doux et avec la pulpe pour un son plus fort. Certains appareils donnent un volume fixe.</li>
         <li>Touche une zone pour la sélectionner dans le séquenceur et le sampler. Active <strong>Repères</strong> pour afficher les réglages du pad. Pour doser son volume au doigt, maintiens la zone puis suis son arc.</li>
       </ul>
     </details>
@@ -606,9 +606,20 @@ function svg(tag, attributes, parent = surface) {
   return node;
 }
 function strikeVelocity(event) {
-  const pressure = event?.pressure;
-  if (event?.pointerType === 'mouse' || !(pressure > 0)) return 100;
-  return Math.round(18 + 82 * Math.min(1,pressure)**.8);
+  if (event?.pointerType !== 'touch' && event?.pointerType !== 'pen') return 100;
+  const {pressure, width, height, pointerType} = event;
+  const hasPressure = pressure > 0 && (pointerType === 'pen' || pressure !== .5);
+  let intensity;
+  if (hasPressure) {
+    intensity = (pressure-.08)/.78;
+  } else if (pointerType === 'touch' && width > 1 && height > 1) {
+    // Contact size is only an approximation when touch pressure is unavailable.
+    intensity = (Math.sqrt(width*height)-7)/19;
+  } else {
+    return 100;
+  }
+  const dynamic = Math.max(0,Math.min(1,intensity));
+  return Math.round(4 + 96 * dynamic**1.5);
 }
 function bindPlayablePad(pad,voice,playInput,storageKey,angleAt,brush = false) {
   voice.volumeKey = storageKey;

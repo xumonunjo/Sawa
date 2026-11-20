@@ -14,7 +14,7 @@ h1.wordmark{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflo
 #drum{display:block;width:min(100%,74svh,760px);height:auto;margin:auto;touch-action:none;user-select:none;-webkit-user-select:none}
 .pad{pointer-events:fill;fill:#fff1a9;fill-opacity:0;cursor:pointer;transition:fill-opacity .15s}
 #drum{overflow:visible;margin-bottom:14px}
-.ripple{fill:url(#skin-light);pointer-events:none;transform-box:fill-box;transform-origin:center;animation:ripple .42s ease-out forwards;mix-blend-mode:screen}
+.ripple{pointer-events:none;transform-box:fill-box;transform-origin:center;animation:ripple .42s ease-out forwards;mix-blend-mode:screen}
 @keyframes ripple{0%{transform:scale(.48);opacity:.64}35%{opacity:.45}100%{transform:scale(1.32);opacity:0}}
 #drum.guides-off .guide,#drum.guides-off .ripple{display:none}
 #drum.guides-off .pad:is(.sampler-selected,.track-selected,.adjusting):not(:focus-visible){fill-opacity:0;stroke:none}
@@ -87,7 +87,7 @@ body.circle-only{overflow:hidden;overscroll-behavior:none}
 body.circle-only main{position:fixed;inset:0;z-index:10;display:grid;place-items:center;box-sizing:border-box;padding:12px;background:#17170f;touch-action:none;overscroll-behavior:none}
 body.circle-only main > :not(#drum):not(#leave-fullscreen){display:none}
 body.circle-only #drum{width:min(calc(100vw - 24px),calc((100dvh - 24px)*1.08));height:auto;margin:0;overflow:hidden}
-body.circle-only #drum :is(.slide-guide,.bead-guide,.guide,.ripple){display:none}
+body.circle-only #drum :is(.slide-guide,.bead-guide,.guide){display:none}
 body.circle-only #drum .pad{fill-opacity:0;stroke:none}
 #drum-fullscreen,#leave-fullscreen{width:44px;height:44px;padding:0;align-items:center;justify-content:center;border:0;background:transparent;color:#d2ab7b;cursor:pointer;vertical-align:middle}
 #drum-fullscreen{display:inline-flex}
@@ -200,6 +200,13 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
 <stop offset=".42" stop-color="#e8a55f" stop-opacity=".41"/>
 <stop offset="1" stop-color="#d18140" stop-opacity="0"/>
 </radialGradient>
+<radialGradient id="light-rose"><stop stop-color="#edb7a0"/><stop offset=".37" stop-color="#edb7a0" stop-opacity=".65"/><stop offset="1" stop-color="#edb7a0" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-sage"><stop stop-color="#c3cba7"/><stop offset=".37" stop-color="#c3cba7" stop-opacity=".65"/><stop offset="1" stop-color="#c3cba7" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-miel"><stop stop-color="#efd396"/><stop offset=".37" stop-color="#efd396" stop-opacity=".65"/><stop offset="1" stop-color="#efd396" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-cuivre"><stop stop-color="#e7ab8d"/><stop offset=".37" stop-color="#e7ab8d" stop-opacity=".65"/><stop offset="1" stop-color="#e7ab8d" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-perle"><stop stop-color="#dbd3be"/><stop offset=".37" stop-color="#dbd3be" stop-opacity=".65"/><stop offset="1" stop-color="#dbd3be" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-brume"><stop stop-color="#bccbd1"/><stop offset=".37" stop-color="#bccbd1" stop-opacity=".65"/><stop offset="1" stop-color="#bccbd1" stop-opacity="0"/></radialGradient>
+<radialGradient id="light-lilas"><stop stop-color="#d1bac8"/><stop offset=".37" stop-color="#d1bac8" stop-opacity=".65"/><stop offset="1" stop-color="#d1bac8" stop-opacity="0"/></radialGradient>
 <linearGradient id="bell-metal" x2="100%" y2="15%">
 <stop stop-color="#3f3b34"/><stop offset=".34" stop-color="#766d5e"/>
 <stop offset=".63" stop-color="#aca394"/><stop offset="1" stop-color="#696156"/>
@@ -367,7 +374,7 @@ const drums = [
 const status = document.querySelector('#status');
 let audio, master, noise, sequenceBus, liveEffects, sequenceEffects;
 let offlineRendering = false;
-const chimeVoice = {label:'Perles · Cauris',volume:100,volumeKey:'sawa-bead-volume'};
+const chimeVoice = {light:'brume',label:'Perles · Cauris',volume:100,volumeKey:'sawa-bead-volume'};
 const volumeReadout = document.querySelector("#volume-readout");
 const holds = new Map();
 const holdDelay = 300;
@@ -507,12 +514,17 @@ function prepareAudio(context,compress = true) {
     drumChannel(voice,true);
   }
 }
-function showHit(point) {
-  if (!circleOnly && !surface.classList.contains('guides-off')) {
-    const ripple = svg('circle',{cx:point[0],cy:point[1],r:78,class:'ripple'});
-    setTimeout(() => ripple.remove(),450);
-  }
-  swingThreads(point);
+function padLight(point, voice, level) {
+  if (surface.classList.contains('guides-off')) return;
+  const radius = 26 + 16 * Math.min(1,level/100);
+  const ripple = svg('circle',{cx:point[0],cy:point[1],r:radius,class:'ripple',
+    fill:'url(#'+(voice.light ? 'light-'+voice.light : 'skin-light')+')','aria-hidden':'true'});
+  setTimeout(() => ripple.remove(),450);
+}
+function atHitTime(when, draw) {
+  if (offlineRendering) return;
+  if (when === undefined) requestAnimationFrame(draw);
+  else setTimeout(draw,Math.max(0,(when-audio.currentTime)*1000));
 }
 function drumChannel(voice,sequenced) {
   const key = sequenced ? 'sequenceChannel' : 'channel';
@@ -528,12 +540,37 @@ function drumChannel(voice,sequenced) {
   }
   return channel;
 }
+const chimeDecay = 2.85;
+function ringChime(channel, now, frequency, strength, position) {
+  const partials = [[1,1,1], [2.69,.32,.59], [4.12,.16,.38]];
+  partials.forEach(([multiple,weight,length],i) => {
+    const start = now+i*.012;
+    const end = start+chimeDecay*length;
+    const tone = audio.createOscillator();
+    const gain = audio.createGain();
+    tone.frequency.value = Math.min(audio.sampleRate*.46,frequency*multiple);
+    gain.gain.setValueAtTime(0,start);
+    gain.gain.linearRampToValueAtTime(strength*weight,start+.009);
+    gain.gain.setTargetAtTime(0,start+.009,length*.65);
+    gain.gain.setValueAtTime(strength*weight*Math.exp(-(end-start-.029)/(length*.65)),end-.02);
+    gain.gain.linearRampToValueAtTime(0,end);
+    tone.connect(gain);
+    const pan = audio.createStereoPanner?.();
+    if (pan) {
+      pan.pan.value = Math.max(-.9,Math.min(.9,position+[0,-.48,.48][i]));
+      gain.connect(pan).connect(channel);
+    } else gain.connect(channel);
+    tone.onended = () => {tone.disconnect(); gain.disconnect(); pan?.disconnect();};
+    tone.start(start);
+    tone.stop(end);
+  });
+}
 function pitchRate(voice) {return 2**((voice.pitch || 0)/12);}
 function strike(voice, point, when, level = 100, direction = 1) {
-  if (!offlineRendering) {
-    if (when === undefined) requestAnimationFrame(() => showHit(point));
-    else setTimeout(() => showHit(point),Math.max(0,(when-audio.currentTime)*1000));
-  }
+  atHitTime(when,() => {
+    padLight(point,voice,level);
+    swingThreads(point);
+  });
   try {
     if (!audio) prepareAudio();
     if (!offlineRendering && audio.state !== 'running') {
@@ -603,6 +640,7 @@ function strike(voice, point, when, level = 100, direction = 1) {
     attack.addEventListener('ended', () => attackGain.disconnect(), {once:true});
     attack.start(now,Math.random()*.09);
     attack.stop(now+voice.decay*4+.01);
+    if (voice.chimeHz) ringChime(channel,now,voice.chimeHz*rate,strength*.115,voice.pan);
     for (const delay of voice.rattle ?? []) {
       const seed = audio.createBufferSource();
       seed.buffer = noise;
@@ -634,9 +672,9 @@ const radii = [0,188,323,447,488];
 const names = ['Toum','Pa','Tac','Graines'];
 const colors = ['Rond','Sec','Brillant'];
 const seeds = [
-  {cutoff:2500, decay:.039, rattle:[.014,.034,.058,.084]},
-  {cutoff:3800, decay:.025, rattle:[.012,.026,.044]},
-  {cutoff:6000, decay:.017, rattle:[.009,.019,.031,.052]}
+  {chimeHz:554,pan:-0.48,cutoff:2500, decay:.039, rattle:[.014,.034,.058,.084]},
+  {chimeHz:740,pan:0,cutoff:3800, decay:.025, rattle:[.012,.026,.044]},
+  {chimeHz:988,pan:0.48,cutoff:6000, decay:.017, rattle:[.009,.019,.031,.052]}
 ];
 const keys = [['Digit1','Digit2','Digit3','Digit4'],['KeyQ','KeyW','KeyE','KeyR'],['KeyZ','KeyX','KeyC','KeyV']];
 const shortcuts = new Map();
@@ -769,6 +807,7 @@ for (let slice=0;slice<3;slice++) {
     const center = polar((inner+outer)/2,(start+end)/2);
     const storageKey = `tambour-volume-${slice}-${ring}`;
     voice.volume = 100;
+    voice.light = ['cuivre','rose','miel','sage'][ring];
     voice.label = `${names[ring]} · ${colors[slice]}`;
     const play = (event,contact = event ? touchPoint(event) : null,velocity = 100) => {
       strike(voice,contact ? [contact.x,contact.y] : center,undefined,velocity);
@@ -840,15 +879,15 @@ const bellVoices = [
 ];
 for (const [part,definition] of bellVoices.entries()) {
   const index = tracks.length;
-  const voice = {...definition,volume:100,bend:1};
+  const voice = {...definition,light:part ? 'brume' : 'perle',volume:100,bend:1};
   const center = [bellX+48,bellY-82+definition.y*4.05];
   // Keep the hit regions stationary while the illustrated bell swings.
   const pad = svg('path',{d:definition.shape,
     transform:`translate(${bellX+48} ${bellY-82}) scale(4.05)`,
     class:'pad bell-pad',role:'button',tabindex:0,'aria-label':voice.label});
   const play = () => strike(voice,center);
-  const playInput = (_event,_contact,velocity) => {
-    strike(voice,center,undefined,velocity);
+  const playInput = (_event,contact,velocity) => {
+    strike(voice,contact ? [contact.x,contact.y] : center,undefined,velocity);
     followInput(index,velocity);
   };
   tracks.push({voice,pad,play,schedule:(time,level) => strike(voice,center,time,level)});
@@ -856,21 +895,22 @@ for (const [part,definition] of bellVoices.entries()) {
     point ? Math.atan2(point.y-center[1],point.x-center[0]+135) : null);
 }
 const wire = document.querySelector('.sawa-thread');
-const wirePath = wire.getAttribute('d');
+const wirePath = Array.from(surface.querySelectorAll('.sawa-thread'),part => part.getAttribute('d')).join(' ');
 const wireAnchors = svg('g',{class:'wire-mount','aria-hidden':'true','pointer-events':'none'});
 for (const [x,y,endX,endY] of [[234,1,254,78],[780,89,761,119]]) {
   svg('path',{d:`M ${x} ${y} L ${endX} ${endY}`,stroke:'#927e68','stroke-width':2.3},wireAnchors);
   svg('circle',{cx:endX,cy:endY,r:5,fill:'#a49277',stroke:'#4e3d2b','stroke-width':1.7},wireAnchors);
 }
 surface.append(wire);
-const wireVoice = {
+const wireVoice = {light:'perle',
   label:'Fil · SÂAWAH',volume:100,bend:1,
   modes:[[286,.30,.28],[597,.19,.18],[927,.12,.14],[1374,.07,.081],[2178,.037,.043]],
   noise:.095,cutoff:3300,decay:.012
 };
 const wireIndex = tracks.length;
 const wirePad = svg('path',{d:wirePath,class:'pad wire-pad',role:'button',tabindex:0,'aria-label':'Fil métallique SÂAWAH'});
-const wireCenter = [490,-23];
+const wireMidpoint = wire.getPointAtLength(wire.getTotalLength()*.5);
+const wireCenter = [wireMidpoint.x,wireMidpoint.y];
 function playWire(point = wireCenter,time,level) {
   strike(wireVoice,point,time,level);
   if (offlineRendering) return;
@@ -890,7 +930,7 @@ const wireInput = (_event,point,velocity) => {
 };
 tracks.push({voice:wireVoice,pad:wirePad,play:()=>playWire(),schedule:(time,level)=>playWire(wireCenter,time,level)});
 bindPlayablePad(wirePad,wireVoice,wireInput,'sawa-wire-volume',touchAngle);
-const slideVoice = {
+const slideVoice = {light:'lilas',
   label:'Glissé · Peau',volume:100,bend:1,glide:true,
   modes:[[143,.33,.076],[231,.14,.068],[367,.058,.059]],
   noise:.36,cutoff:880,decay:.054
@@ -977,6 +1017,10 @@ function moveSkinSlide(gesture,point,event) {
   return true;
 }
 function setSlideSound(slide,y,amount,time) {
+  if (!offlineRendering && time >= (slide.nextLight ?? 0)) {
+    slide.nextLight = time+.085;
+    atHitTime(time,() => padLight([490,y],slideVoice,amount*300));
+  }
   const progress = Math.max(0,Math.min(1,(988-y)/986));
   const rate = pitchRate(slideVoice)*2**(2.55*progress**.62);
   if (slide.sample) slide.sample.playbackRate.setTargetAtTime(rate,time,.009);
@@ -1061,10 +1105,13 @@ function soundThread(index,when,level = 100) {
   if (!offlineRendering && audio?.state !== 'running') return;
   const now = when ?? audio.currentTime;
   const channel = drumChannel(chimeVoice,when !== undefined);
+  const strand = strands[index];
+  const point = [strand.x,strand.y];
   if (chimeVoice.sample) {
-    strike(chimeVoice,[490,30],when,level);
+    strike(chimeVoice,point,when,level);
     return;
   }
+  atHitTime(when,() => padLight(point,chimeVoice,level));
   const scale = level/100;
   const bell = index%7 === 0;
   const seeds = index%8 === 3;
@@ -1080,23 +1127,10 @@ function soundThread(index,when,level = 100) {
     gain.gain.exponentialRampToValueAtTime(.0001,now+.13);
     source.connect(filter).connect(gain).connect(channel);
     source.start(now,Math.random()*.08,.14);
-    return;
   }
   const pitches = [660,784,880,988,1175,1320];
   const root = pitches[index%pitches.length]*(bell ? .5 : 1);
-  const partials = bell ? [1,2.43,3.75] : [1,2.76,5.4];
-  partials.forEach((partial,i) => {
-    const oscillator = audio.createOscillator();
-    const gain = audio.createGain();
-    const decay = (bell ? 1.05 : .72)/(1+i);
-    oscillator.frequency.value = root*partial*pitchRate(chimeVoice);
-    gain.gain.setValueAtTime(.0001,now);
-    gain.gain.linearRampToValueAtTime((bell ? .096 : .074)*scale/(1+i*2),now+.004);
-    gain.gain.exponentialRampToValueAtTime(.0001,now+decay);
-    oscillator.connect(gain).connect(channel);
-    oscillator.start(now);
-    oscillator.stop(now+decay+.01);
-  });
+  ringChime(channel,now,root*pitchRate(chimeVoice),scale*(bell ? .105 : .082),Math.cos(strand.angle)*.62);
 }
 const beadTrack = tracks.length;
 const beadPad = svg('path',{d:'M 490 11 A 484 484 0 1 1 489.99 11',class:'pad bead-guide',
@@ -2390,7 +2424,9 @@ function renderStereo(project,compress) {
     const length = event.track === slideTrack && event.detail?.points?.length
       ? event.detail.duration+.13
       : voice.sample ? ((voice.trimEnd ?? voice.sample.duration)-(voice.trimStart ?? 0))/pitchRate(voice)
-      : 1.4;
+      : voice.chimeHz || event.track === beadTrack
+        ? chimeDecay+(event.track === beadTrack ? Math.max(0,(event.detail?.length || 1)-1)*.025 : 0)
+        : 1.4;
     const tail = voice.delay ? 3.25 : voice.reverb ? 1.2 : 0;
     end = Math.max(end,event.time+length+tail);
   }

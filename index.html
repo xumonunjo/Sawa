@@ -143,6 +143,43 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
 .help-body ul{padding-inline-start:22px;margin:0 0 14px;line-height:1.5}
 .help-body li+li{margin-top:6px}
 .language-control{display:inline-flex;align-items:center;gap:4px;margin:8px 0 0 6px;color:#e4d0a8;font-size:.85rem}.language-control select{min-height:44px;max-width:100%;font:inherit;color:#ffe2b6;background:#30241a;border:1px solid #715139;border-radius:8px;padding:4px}
+.midi-entry{max-width:760px;margin:12px auto 0;text-align:left}
+#import-midi,.import-copy{display:inline-flex;position:relative;align-items:center;box-sizing:border-box;min-height:44px;padding:8px 14px;border:1px solid #ae8058;border-radius:8px;color:#fff1d6;background:#513520;cursor:pointer;font:inherit}
+#import-midi:focus-within,.import-copy:focus-within{outline:2px solid #edc895}
+#midi-file,.studio #midi-grid-file{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+#import-status:empty{display:none}
+#mix-desk{box-sizing:border-box;width:min(96vw,1120px);max-width:96vw;max-height:92dvh;padding:0;background:#2e2018;color:#f8e4c6;border:1px solid #9c734e;border-radius:14px;overflow:auto}
+#mix-desk::backdrop{background:#100c08c9}
+#mix-desk header,.master-row{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;padding:10px 16px;text-align:left}
+#mix-desk header{position:sticky;top:0;background:#39271d;z-index:2}
+#mix-desk h2{font-size:1.25rem;margin:0}
+#mix-desk button{font:inherit;color:inherit;background:#503522;border:1px solid #8c694b;border-radius:7px;min-height:42px;padding:5px 10px}
+#mix-desk input{accent-color:#d69d62}
+#mix-strips{display:flex;overflow-x:auto;gap:8px;padding:5px 12px 16px;scrollbar-color:#ac8259 #35231a}
+.mix-strip{flex:0 0 125px;padding:10px 6px;border-radius:9px;background:linear-gradient(#473226,#39271c);border:1px solid #765237;text-align:center}
+.mix-strip label{display:grid;justify-items:center;gap:2px;margin:8px 0;color:#f1d7b1;font-size:.9rem}
+.mix-strip input{width:94px;margin:3px 0}
+.mix-strip input.fader{writing-mode:vertical-lr;direction:rtl;width:34px;height:92px}
+.mix-strip output{font-variant-numeric:tabular-nums}
+.strip-listen{width:100%;min-height:48px!important}
+#mix-desk [aria-pressed=true]{background:#946038}
+@media(max-height:520px){.mix-strip input.fader{height:56px}}
+#mix-desk{background:#443729;color:#f8e5bf;border:9px solid #503521;border-radius:15px;box-shadow:inset 0 0 0 2px #ac8058,0 16px 60px #100c08aa}
+#mix-desk header{background:linear-gradient(90deg,#4b3023,#7a5239 44%,#513321);border-bottom:2px solid #241b14;color:#f6dfb8}
+#mix-desk h2{font-family:Georgia,serif;font-weight:normal;letter-spacing:.04em}
+.master-row{background:linear-gradient(#423b31,#302c27);border-bottom:3px solid #211c16}
+#mix-strips{background:#332b22;gap:4px;padding:10px 8px 14px}
+.mix-strip{position:relative;box-sizing:border-box;flex:0 0 136px;border:1px solid #6f6653;border-top:2px solid #938872;border-radius:3px;background:linear-gradient(90deg,#514c41,#625d4e 48%,#514d43);box-shadow:inset -2px 0 3px #322f28}
+#mix-desk .strip-listen{font:600 1rem Georgia,serif;color:#3d3022;background:linear-gradient(100deg,#d5c6a7,#efe0bc 51%,#d2c1a2);border:1px solid #302c25;border-radius:2px;box-shadow:0 2px 3px #2d2a20}
+.mix-strip .fader-bed{position:relative;height:138px;width:86px;background:repeating-linear-gradient(to top,transparent 0 10px,#c1b493 10px 11px,transparent 11px 12px) 26px center/12px 121px no-repeat}
+.fader-bed .level-marks{position:absolute;left:0;top:7px;bottom:7px;display:flex;flex-direction:column;justify-content:space-between;text-align:right;width:24px;font:10px/1 monospace;color:#f5ebd1}
+#mix-desk .fader-bed input.fader{position:absolute;left:28px;top:0;width:50px;height:100%;box-sizing:border-box;margin:0;padding:0;border:0;background:transparent;writing-mode:vertical-lr;direction:rtl;-webkit-appearance:none;appearance:none;cursor:ns-resize;touch-action:none}
+.fader::-webkit-slider-runnable-track{width:6px;background:#221d15;border:1px solid #817765;border-radius:4px;box-shadow:inset 2px 0 3px #0e0c09}
+.fader::-moz-range-track{width:5px;height:100%;background:#211b14;border:1px solid #817765;border-radius:4px}
+.fader::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:40px;height:21px;margin-left:-18px;border:1px solid #452a1b;border-radius:5px;background:linear-gradient(0deg,transparent 44%,#f5deb0 45% 53%,transparent 54%),repeating-linear-gradient(6deg,#b48355 0px,#bf8c5b 2px,#a8744b 3px,#bc895a 5px);box-shadow:inset 0 2px 2px #e3bb8a,inset 0 -3px 3px #70462e,1px 3px 4px #1d1914}
+.fader::-moz-range-thumb{width:38px;height:19px;border:1px solid #452a1b;border-radius:5px;background:linear-gradient(0deg,transparent 44%,#f5deb0 45% 53%,transparent 54%),repeating-linear-gradient(6deg,#b48355 0px,#bf8c5b 2px,#a8744b 3px,#bc895a 5px);box-shadow:inset 0 2px 2px #e3bb8a,1px 3px 4px #1d1914}
+#mix-desk input[type=range]{accent-color:#c59467}
+#mix-desk .mix-strip output{font:12px/1.2 monospace;color:#fff2d4}
 </style>
 <main id="instrument-stage">
 <h1 class="wordmark">SÂAWAH</h1>
@@ -182,11 +219,16 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
 <output id="volume-readout" hidden></output>
 <p id="status" role="status">Touche le bouton pour entendre un Toum de test.</p>
 
+<div class="midi-entry">
+<label id="import-midi"><span>Importer un fichier MIDI</span><input type="file" id="midi-file" accept=".mid,.midi,audio/midi,audio/x-midi" aria-label="Importer un fichier MIDI"></label>
+<p id="import-status" role="status"></p>
+</div>
 <details class="studio" id="sequence-panel">
 <summary>Séquenceur</summary>
 <div class="studio-body">
 <div class="controls">
-<button id="mix-toggle" type="button" aria-pressed="true">Mixage</button>
+<button id="mix-toggle" type="button" aria-haspopup="dialog" aria-controls="mix-desk">Mixage</button>
+<label class="import-copy"><span>Importer un fichier MIDI</span><input type="file" id="midi-grid-file" accept=".mid,.midi,audio/midi,audio/x-midi" aria-label="Importer un fichier MIDI"></label>
 <button id="transport" type="button">Lire</button>
 <button id="sequence-record" type="button" aria-pressed="false">Enregistrer</button>
 <label>Tempo <input id="tempo" type="number" min="40" max="240" value="100"> BPM</label>
@@ -214,6 +256,7 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
 <summary>Exporter</summary>
 <div class="controls">
 <label>Répétitions <input id="export-repeats" type="number" min="1" max="32" value="1" inputmode="numeric"></label>
+
 <button id="export-midi" type="button">Préparer le MIDI</button>
 <button id="export-wav" type="button">Préparer le WAV stéréo</button>
 <label><input id="export-compress" type="checkbox"> Compresseur</label>
@@ -262,6 +305,9 @@ body.circle-only #drum{width:100%;max-width:calc((100dvh - max(12px,env(safe-are
 </div>
 </main>
 
+<dialog id="mix-desk" aria-labelledby="desk-title"><header><h2 id="desk-title">Table de mixage</h2><button id="close-mixer" type="button">Fermer</button></header>
+<div class="master-row"><label>Volume boucle <input id="mix-master" type="range" min="0" max="100"> <output id="master-reading"></output></label><label><input id="grid-columns" type="checkbox" checked> Colonnes de mixage</label></div>
+<div id="mix-strips"></div></dialog>
 <dialog id="help-dialog" aria-labelledby="help-title">
   <header class="help-heading">
     <h2 id="help-title">Guide rapide de SÂAWAH</h2>
@@ -347,6 +393,12 @@ function connectEffects(channel,voice,bus) {
 function storedLevel(value) {
   return value === true ? 50 : Math.max(0,Math.min(100,Number(value)||0));
 }
+function setSend(voice,effect,next) {
+    voice[effect] = Math.max(0,Math.min(100,next));
+    for (const sends of voice.effectSends ?? []) {
+      sends[effect].gain.setTargetAtTime(effectGain(voice,effect),audio.currentTime,.018);
+    }
+}
 function makeEffectButton(voice,label,effect) {
   const button = document.createElement('button');
   button.type = 'button';
@@ -360,10 +412,7 @@ function makeEffectButton(voice,label,effect) {
     button.setAttribute('aria-pressed',level() > 0);
   }
   function update(next) {
-    voice[effect] = Math.max(0,Math.min(100,next));
-    for (const sends of voice.effectSends ?? []) {
-      sends[effect].gain.setTargetAtTime(effectGain(voice,effect),audio.currentTime,.018);
-    }
+    setSend(voice,effect,next);
     display();
     document.querySelector('#effect-level').textContent = button.title;
   }
@@ -1167,7 +1216,7 @@ const signedPitch = value => value > 0 ? '+'+value : String(value||0);
 const readPitch = value => Math.max(-12,Math.min(12,Math.round(Number(value)||0)));
 function setMixVisible(visible) {
   sequencePanel.classList.toggle('mix-hidden',!visible);
-  mixToggle.setAttribute('aria-pressed',visible);
+  document.querySelector('#grid-columns').checked=visible;
   if (!visible) closePitch();
 }
 function closePitch() {
@@ -1175,8 +1224,8 @@ function closePitch() {
   pitchButton?.setAttribute('aria-expanded','false');
   pitchButton = pitchVoice = undefined;
 }
-mixToggle.addEventListener('click', () => {
-  setMixVisible(mixToggle.getAttribute('aria-pressed') !== 'true');
+document.querySelector('#grid-columns').addEventListener('change', event => {
+  setMixVisible(event.target.checked);
   savePattern();
 });
 function makePitchButton(voice,label) {
@@ -1388,7 +1437,7 @@ function savePattern() {
   try {
     localStorage.setItem('tambour-sequence',JSON.stringify({
       pattern,slideTakes,beadTakes,clickEnabled,clickVolume:Number(clickVolume.value),clickDivision:Number(clickDivision.value),pitches:tracks.map(({voice}) => voice.pitch||0),chimePitch:chimeVoice.pitch||0,
-      mixVisible:mixToggle.getAttribute('aria-pressed')==='true',steps:Number(stepsInput.value),trackEffects:tracks.map(({voice}) => ({delay:voice.delay||0,reverb:voice.reverb||0})),
+      mixVisible:!sequencePanel.classList.contains('mix-hidden'),steps:Number(stepsInput.value),trackEffects:tracks.map(({voice}) => ({delay:voice.delay||0,reverb:voice.reverb||0})),
       chimeEffects:{delay:chimeVoice.delay||0,reverb:chimeVoice.reverb||0},mutedTracks:tracks.map(({voice}) => Boolean(voice.muted)),sequenceVolume:Number(sequenceVolume.value),tempo:Number(tempo.value),meter:meter.value,beats:Number(beats.value),unit:Number(unit.value)
     }));
   } catch {}
@@ -2046,7 +2095,7 @@ function exportMessage(text,error = false) {
   exportStatus.textContent = text;
   exportStatus.toggleAttribute('data-error',error);
 }
-function snapshotExport() {
+function snapshotExport(allowSilent=false) {
   const [numerator,denominator] = meter.value === 'custom' ? [Number(beats.value),Number(unit.value)] : meter.value.split('/').map(Number);
   const bpm = Math.max(40,Math.min(240,Number(tempo.value)||100));
   const duration = 240*numerator/(denominator*bpm);
@@ -2059,7 +2108,7 @@ function snapshotExport() {
       events.push({track,step,time:step*duration/stepCount,level,detail});
     }
   }
-  if (!events.length) throw new Error('Ajoute au moins une frappe audible dans la grille avant d’exporter.');
+  if (!events.length && !allowSilent) throw new Error('Ajoute au moins une frappe audible dans la grille avant d’exporter.');
   const repeats = Math.max(1,Math.min(32,Math.round(Number(exportRepeats.value)||1)));
   exportRepeats.value = repeats;
   const repeatedEvents = Array.from({length:repeats},(_,pass) => events.map(event => ({
@@ -2067,6 +2116,183 @@ function snapshotExport() {
   }))).flat();
   return {numerator,denominator,bpm,duration:duration*repeats,steps:stepCount*repeats,events:repeatedEvents,repeats};
 }
+// A sequencer-specific track travels alongside the ordinary MIDI tracks.
+const portableTag = 'SAAWAH1';
+const maxMidiSize = 64 * 1024 * 1024;
+const drumNotes = [36,35,41,38,40,39,37,75,76,70,69,82,56,53,81,48,84];
+function midiLength(n) {
+  const bytes = [n & 127];
+  while ((n >>>= 7)) bytes.unshift(128 | (n & 127));
+  return bytes;
+}
+function privateEvent(kind, payload) {
+  const header = new TextEncoder().encode(portableTag);
+  const data = new Blob([Uint8Array.of(125),header,Uint8Array.of(kind),payload]);
+  return new Blob([Uint8Array.from([0,255,127,...midiLength(data.size)]),data]);
+}
+function makePortableTrack(project) {
+  const entries = [];
+  const voices = tracks.map(({voice:v}) => {
+    let sample = -1;
+    if (v.sample) {
+      const entry = [...library.values()].find(e => e.buffer === v.sample);
+      if (!entry?.blob) throw Error('Le fichier source du sample manque : '+v.label);
+      sample = entries.indexOf(entry);
+      if (sample < 0) sample = entries.push(entry)-1;
+    }
+    return {volume:v.volume,pitch:v.pitch||0,delay:v.delay||0,reverb:v.reverb||0,muted:!!v.muted,sample,
+      start:v.trimStart||0,end:v.trimEnd||0};
+  });
+  const state = {voices,pattern:pattern.map(row=>row.slice(0,stepCount)),steps:stepCount,slideTakes:slideTakes.slice(0,stepCount),
+    beadTakes:beadTakes.slice(0,stepCount),bpm:project.bpm,n:project.numerator,d:project.denominator,repeats:project.repeats,
+    master:+sequenceVolume.value,click:clickEnabled,clickVolume:+clickVolume.value,division:+clickDivision.value,
+    compressor:document.querySelector('#export-compress').checked,selected:selectedTrack,
+    samples:entries.map(e=>({name:e.name,type:e.blob.type}))};
+  const events = [privateEvent(0,JSON.stringify(state)),...entries.map(e=>privateEvent(1,e.blob)),Uint8Array.of(0,255,47,0)];
+  const track = new Blob(events);
+  if(track.size>maxMidiSize-1048576) throw Error('Les samples dépassent la limite de partage de 64 Mio.');
+  const length = new DataView(new ArrayBuffer(4));
+  length.setUint32(0,track.size);
+  return new Blob(['MTrk',length,track]);
+}
+function readMidi(data) {
+  const bytes = new Uint8Array(data), view = new DataView(data), decoder = new TextDecoder();
+  let p=0, stop=bytes.length;
+  function take(n) {
+    if(n<0 || p+n>stop) throw Error('Fichier MIDI incomplet.');
+    const b=bytes.subarray(p,p+n); p+=n; return b;
+  }
+  const byte=()=>take(1)[0];
+  function length() {
+    let n=0;
+    for(let i=0;i<4;i++){const b=byte(); n=n*128+(b&127); if(b<128)return n;}
+    throw Error('Longueur MIDI invalide.');
+  }
+  if(decoder.decode(take(4))!=='MThd') throw Error('Choisis un fichier .mid.');
+  const h=view.getUint32(p);p+=4;
+  if(h<6)throw Error('En-tête MIDI invalide.');
+  const head=take(h), format=head[0]*256+head[1], count=head[2]*256+head[3], ppq=head[4]*256+head[5];
+  if(format>1 || !ppq || ppq>=32768)throw Error('Format MIDI non pris en charge.');
+  let state=null,bpm=120,n=4,d=4; const samples=[], hits=[];
+  for(let i=0;i<count;i++){
+    stop=bytes.length;
+    if(decoder.decode(take(4))!=='MTrk') throw Error('Piste MIDI invalide.');
+    const size=view.getUint32(p); p+=4; if(size>stop-p)throw Error('Piste tronquée.'); stop=p+size;
+    let tick=0,running=0;
+    while(p<stop){
+      tick+=length(); let s=byte();
+      if(s<128){if(!running)throw Error('Message MIDI invalide.');p--;s=running;}
+      if(s===255){
+        running=0;const type=byte(), b=take(length());
+        if(type===127 && b[0]===125 && decoder.decode(b.subarray(1,8))===portableTag){
+          if(b[8]===0)state=JSON.parse(decoder.decode(b.subarray(9)));
+          else if(b[8]===1)samples.push(b.subarray(9));
+        }else if(!tick && type===81 && b.length===3)bpm=60000000/(b[0]*65536+b[1]*256+b[2]);
+        else if(!tick && type===88 && b.length>=2){n=b[0];d=2**b[1];}
+      }else if(s===240||s===247){running=0;take(length());}
+      else if(s<240){
+        running=s;const op=s>>4, b=take(op===12||op===13?1:2);
+        if(op===9 && b[1])hits.push({tick,key:b[0],velocity:b[1],channel:s&15});
+      }else throw Error('Événement MIDI inconnu.');
+    }
+  }
+  return {state,samples,hits,bpm,n,d,ppq};
+}
+function externalPattern(m) {
+  const n=m.n,d=m.d;
+  if(n<1||n>32||!units.includes(d))throw Error('Mesure incompatible avec cette grille.');
+  const steps=n*Math.max(1,16/d), span=m.ppq*4*n/d;
+  const rows=tracks.map(()=>[]), beads=[];
+  let accepted=0, skipped=0;
+  for(const h of m.hits){
+    const strand=h.key>=85 && h.key<=100 && h.channel===9;
+    const id=strand?beadTrack:h.channel===0 && h.key>=30 && h.key<=54?slideTrack:drumNotes.indexOf(h.key);
+    if(id<0||h.tick>=span){skipped++;continue;}
+    const slot=Math.min(steps-1,Math.round(h.tick*steps/span));
+    rows[id][slot]=Math.max(rows[id][slot]||0,Math.round(h.velocity*100/127)||1);
+    if(strand)(beads[slot]??=[]).push(h.key-85);
+    accepted++;
+  }
+  if(!accepted)throw Error('Aucune note compatible dans la première mesure.');
+  return {pattern:rows,n,d,steps,bpm:Math.max(40,Math.min(240,Math.round(m.bpm))),slideTakes:[],beadTakes:beads,
+    notice:'Première mesure importée sur la grille. '+skipped+' note(s) hors mesure ou sans pad.'};
+}
+function checkState(s, blobs) {
+  const range=(v,lo,hi)=>Number.isFinite(v)&&v>=lo&&v<=hi;
+  if(!s || !Number.isInteger(s.n)||!range(s.n,1,32)||!units.includes(s.d)||!range(s.bpm,40,240)
+    ||!Number.isInteger(s.steps)||!range(s.steps,1,Math.min(512,128*s.n/s.d))
+    ||!Array.isArray(s.pattern)||s.pattern.length!==tracks.length
+    ||!s.pattern.every(row=>Array.isArray(row)&&row.length<=s.steps&&row.every(x=>x===null||range(x,0,100)))
+    ||!Array.isArray(s.slideTakes)||!Array.isArray(s.beadTakes)
+    ||!s.slideTakes.every(t=>t===null||(range(t.duration,0,8)&&Array.isArray(t.points)&&t.points.every(p=>Array.isArray(p)&&p.length>=2&&p.every(Number.isFinite))))
+    ||!s.beadTakes.every(t=>t===null||(Array.isArray(t)&&t.every(i=>Number.isInteger(i)&&range(i,0,31))))) throw Error('Séquence incompatible.');
+  if(s.voices){
+    if(!Array.isArray(s.voices)||s.voices.length!==tracks.length||!Array.isArray(s.samples)||s.samples.length!==blobs.length
+      ||!s.samples.every(m=>typeof m.name==='string'&&typeof m.type==='string')
+      ||!s.voices.every(v=>v&&range(v.volume,0,100)&&range(v.pitch,-12,12)&&range(v.delay,0,100)&&range(v.reverb,0,100)
+        &&Number.isInteger(v.sample)&&range(v.sample,-1,blobs.length-1)&&range(v.start,0,1e8)&&range(v.end,v.start,1e8))
+      ||!range(s.master,0,100)||!range(s.clickVolume,0,100)||![1,2,3,4].includes(s.division)||!range(s.repeats,1,32))throw Error('Réglages MIDI incomplets.');
+  }
+}
+async function importMidiFile(file) {
+  if(file.size>maxMidiSize)throw Error('Limite de lecture : 64 Mio.');
+  const midi=readMidi(await file.arrayBuffer());
+  const s=midi.state||externalPattern(midi);
+  checkState(s,midi.samples);
+  if(midi.state&&!s.voices)throw Error('Données de timbre manquantes.');
+  const entries=[];
+  for(const [i,data] of midi.samples.entries()){
+    if(!audio)prepareAudio();
+    const meta=s.samples[i],blob=new Blob([data],{type:meta.type});
+    entries.push({id:crypto.randomUUID(),blob,name:meta.name,buffer:await audio.decodeAudioData(await blob.arrayBuffer())});
+  }
+  if(pattern.some(row=>row.some(Boolean))&&!confirm('Remplacer la boucle actuelle par « '+file.name+' » ?'))return;
+  if(clock)transport.click();
+  stopAudition();
+  for(const [i, row] of s.pattern.entries())pattern[i]=row;
+  slideTakes=s.slideTakes; beadTakes=s.beadTakes;
+  meter.value=presets.includes(s.n+'/'+s.d)?s.n+'/'+s.d:'custom';
+  beats.value=s.n;unit.value=s.d;stepsInput.value=s.steps;tempo.value=s.bpm;
+  if(s.voices){
+    entries.forEach(listSample);
+    tracks.forEach(({voice},i)=>{
+      const v=s.voices[i]; Object.assign(voice,{pitch:v.pitch,delay:v.delay,reverb:v.reverb,muted:v.muted});
+      if(v.sample>=0){assignSample(voice,entries[v.sample]);voice.trimStart=v.start;voice.trimEnd=v.end;}
+      else {delete voice.sample;delete voice.sampleName;delete voice.trimStart;delete voice.trimEnd;}
+      setPadVolume(voice,v.volume);
+      for(const sends of voice.effectSends||[])for(const fx of Object.keys(effectNames))sends[fx].gain.value=effectGain(voice,fx);
+      try{localStorage.setItem(voice.volumeKey,v.volume);}catch{}
+    });
+    sequenceVolume.value=s.master;showSequenceLevel();if(sequenceBus)sequenceBus.gain.value=s.master/100;
+    clickEnabled=s.click;clickVolume.value=s.clickVolume;clickDivision.value=s.division;refreshClick();
+    document.querySelector('#export-compress').checked=s.compressor;exportRepeats.value=s.repeats;
+  }
+  drawMeter();if(tracks[s.selected])selectTrack(s.selected);showSample();savePattern();
+  return s.notice||'Boucle et sons restaurés. Touche Lire.';
+}
+const midiPicker=document.querySelector('#midi-file');
+async function chooseMidi(event) {
+  const midiPicker=event.currentTarget;
+  const file = midiPicker.files[0];
+  midiPicker.value = '';
+  if (!file) return;
+  const status = document.querySelector('#import-status');
+  midiPicker.disabled = true;
+  try {
+    const message = await importMidiFile(file);
+    if (message) {
+      sequencePanel.open = true;
+      status.textContent = message;
+    } else status.textContent = '';
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    midiPicker.disabled = false;
+  }
+}
+midiPicker.addEventListener('change',chooseMidi);
+document.querySelector('#midi-grid-file').addEventListener('change',chooseMidi);
+
 function midiBytes(project) {
   const tpq = 960;
   const ticksPerSecond = project.bpm*tpq/60;
@@ -2097,7 +2323,7 @@ function midiBytes(project) {
     {tick:0,message:meta(88,[project.numerator,Math.log2(project.denominator),24,8])}
   ]);
   const noteMap = [36,35,41,38,40,39,37,75,76,70,69,82,56,53,81,48,84];
-  const parts = [conductor];
+  const parts = [conductor,makePortableTrack(project)];
   for (const [index,{voice}] of tracks.entries()) {
     const recorded = project.events.filter(event => event.track === index);
     if (!recorded.length) continue;
@@ -2203,7 +2429,7 @@ function stereoWave(buffer) {
 midiExport.addEventListener('click',() => {
   clearDownload(downloadMidi);
   try {
-    const project = snapshotExport();
+    const project = snapshotExport(true);
     const canSave = showDownload(downloadMidi,midiBytes(project),'SAWA-'+project.repeats+'-boucles.mid');
     exportMessage(canSave ? 'Pour choisir un dossier, touche « Enregistrer le MIDI dans Fichiers ».' : 'Fichier prêt. Touche « Télécharger le MIDI ».');
   } catch (error) {exportMessage(error.message,true);}
@@ -2221,6 +2447,66 @@ wavExport.addEventListener('click',async () => {
   finally {wavExport.disabled = false;}
 });
 
+const mixDesk=document.querySelector('#mix-desk');
+const strips=document.querySelector('#mix-strips');
+const masterSlider=document.querySelector('#mix-master');
+const masterReading=document.querySelector('#master-reading');
+function setConsoleMaster(){
+  masterSlider.value=sequenceVolume.value;
+  masterReading.value=masterSlider.value+' %';
+}
+masterSlider.addEventListener('input',()=>{
+  sequenceVolume.value=masterSlider.value;
+  sequenceVolume.dispatchEvent(new Event('input'));
+  setConsoleMaster();
+});
+function makeStrip(track,index){
+  const voice=track.voice;
+  const strip=document.createElement('section');
+  strip.className='mix-strip';
+  const listen=document.createElement('button');
+  listen.textContent=voice.label;
+  listen.className='strip-listen';
+  listen.title='Écouter';
+  listen.onclick=()=>{selectTrack(index);track.play();};
+  strip.append(listen);
+  function slider(key,caption,min,max,apply){
+    const label=document.createElement('label'), title=document.createElement('span');
+    const input=document.createElement('input'), out=document.createElement('output');
+    title.textContent=caption;input.type='range';input.min=min;input.max=max;
+    input.value=voice[key]??0;input.className=key==='volume'?'fader':'';
+    input.setAttribute('aria-label',caption+' · '+voice.label);
+    const show=()=>{out.value=input.value+(key==='pitch'?' st':' %');};
+    input.oninput=()=>{apply(+input.value);show();};
+    input.onchange=()=>{savePattern();if(key==='volume'){try{localStorage.setItem(voice.volumeKey,voice.volume);}catch{}}};
+    show();
+    if(key==='volume'){
+      const bed=document.createElement('div'), marks=document.createElement('div');
+      bed.className='fader-bed';marks.className='level-marks';marks.setAttribute('aria-hidden','true');
+      for(const value of [100,75,50,25,0]){
+        const mark=document.createElement('span');mark.textContent=value;marks.append(mark);
+      }
+      bed.append(marks,input);label.append(title,bed,out);
+    }else label.append(title,input,out);
+    strip.append(label);
+  }
+  slider('volume','Volume',0,100,n=>setPadVolume(voice,n));
+  slider('pitch','Pitch',-12,12,n=>setPadPitch(voice,n));
+  for(const fx of Object.keys(effectNames))slider(fx,effectNames[fx],0,100,n=>setSend(voice,fx,n));
+  const mute=document.createElement('button');
+  mute.textContent='Muet';mute.setAttribute('aria-pressed',!!voice.muted);
+  mute.onclick=()=>{body.rows[index].querySelector('.track-mute').click();mute.setAttribute('aria-pressed',!!voice.muted);};
+  strip.append(mute);
+  return strip;
+}
+mixToggle.onclick=()=>{
+  strips.replaceChildren(...tracks.map(makeStrip));setConsoleMaster();
+  mixDesk.showModal();
+  if(selectedTrack>=0) strips.children[selectedTrack].scrollIntoView({block:'nearest',inline:'center'});
+};
+document.querySelector('#close-mixer').onclick=()=>mixDesk.close();
+mixDesk.addEventListener('close',()=>{drawMeter();mixToggle.focus();});
+
 const languagePicker = document.querySelector('#language');
 const languageCodes = ['fr','en','es','ca'];
 let language = 'fr';
@@ -2228,7 +2514,7 @@ try {
   const saved = localStorage.getItem('saawah-language');
   if (languageCodes.includes(saved)) language = saved;
 } catch {}
-const words = {"Pour d’autres langues, utilise la traduction de page si ton navigateur la propose.":["For other languages, use page translation if your browser offers it.","Para otros idiomas, usa la traducción de páginas si tu navegador la ofrece.","Per a altres llengües, utilitza la traducció de pàgines si el navegador l’ofereix."],"Activer le son": ["Enable sound", "Activar sonido", "Activar el so"], "Repères : oui": ["Guides on", "Guías activadas", "Guies activades"], "Repères : non": ["Guides off", "Guías desactivadas", "Guies desactivades"], "Aide": ["Help", "Ayuda", "Ajuda"], "Plein écran": ["Full screen", "Pantalla completa", "Pantalla completa"], "Quitter le plein écran": ["Exit full screen", "Salir de pantalla completa", "Sortir de pantalla completa"], "Du centre au bord · Toum · Pa · Tac · Graines": ["From centre to rim · Toum · Pa · Tac · Seeds", "Del centro al borde · Toum · Pa · Tac · Semillas", "Del centre a la vora · Toum · Pa · Tac · Llavors"], "Maintiens le doigt sur un pad, puis suis son arc. ↻ plus fort · ↺ moins fort.": ["Hold a pad, then follow its arc. ↻ louder · ↺ softer.", "Mantén pulsado un pad y sigue su arco. ↻ más volumen · ↺ menos volumen.", "Mantén premut un pad i segueix-ne l’arc. ↻ més volum · ↺ menys volum."], "Touche le bouton pour entendre un Toum de test.": ["Tap the button to hear a test Toum.", "Toca el botón para escuchar un Toum de prueba.", "Toca el botó per sentir un Toum de prova."], "Séquenceur": ["Sequencer", "Secuenciador", "Seqüenciador"], "Mixage": ["Mixer", "Mezclador", "Mesclador"], "Lire": ["Play", "Reproducir", "Reproduir"], "Enregistrer": ["Record", "Grabar", "Enregistrar"], "Mesure": ["Time signature", "Compás", "Compàs"], "Numérateur": ["Numerator", "Numerador", "Numerador"], "Dénominateur": ["Denominator", "Denominador", "Denominador"], "Pas": ["Steps", "Pasos", "Passos"], "Clic : non": ["Click off", "Clic desactivado", "Clic desactivat"], "Clic : oui": ["Click on", "Clic activado", "Clic activat"], "Volume clic": ["Click volume", "Volumen del clic", "Volum del clic"], "Subdivision": ["Subdivision", "Subdivisión", "Subdivisió"], "Temps": ["Beat", "Pulso", "Pulsació"], "2 par temps": ["2 per beat", "2 por pulso", "2 per pulsació"], "3 par temps": ["3 per beat", "3 por pulso", "3 per pulsació"], "4 par temps": ["4 per beat", "4 por pulso", "4 per pulsació"], "Volume boucle": ["Loop volume", "Volumen del bucle", "Volum del bucle"], "Vider la grille": ["Clear grid", "Vaciar la rejilla", "Buidar la graella"], "Sur une case, glisse vers le haut ou le bas pour doser la frappe.": ["Drag up or down on a step to adjust its velocity.", "Desliza hacia arriba o abajo en una casilla para ajustar la intensidad del golpe.", "Llisca amunt o avall sobre una casella per ajustar la intensitat del cop."], "Réinitialiser": ["Reset", "Restablecer", "Restablir"], "Exporter": ["Export", "Exportar", "Exportar"], "Répétitions": ["Repeats", "Repeticiones", "Repeticions"], "Préparer le MIDI": ["Prepare MIDI", "Preparar MIDI", "Preparar MIDI"], "Préparer le WAV stéréo": ["Prepare stereo WAV", "Preparar WAV estéreo", "Preparar WAV estèreo"], "Compresseur": ["Compressor", "Compresor", "Compressor"], "Télécharger le MIDI": ["Download MIDI", "Descargar MIDI", "Baixar MIDI"], "Télécharger le WAV stéréo": ["Download stereo WAV", "Descargar WAV estéreo", "Baixar WAV estèreo"], "Enregistrer le MIDI dans Fichiers": ["Save MIDI to Files", "Guardar MIDI en Archivos", "Desar MIDI a Fitxers"], "Enregistrer le WAV dans Fichiers": ["Save WAV to Files", "Guardar WAV en Archivos", "Desar WAV a Fitxers"], "Glisse sur D ou R pour doser l’effet.": ["Drag on D or R to adjust the effect.", "Desliza sobre D o R para ajustar el efecto.", "Llisca sobre D o R per ajustar l’efecte."], "Portion": ["Pad", "Pad", "Pad"], "Enregistrer au micro": ["Record with mic", "Grabar con el micro", "Enregistrar amb el micro"], "Écouter": ["Listen", "Escuchar", "Escoltar"], "Son d’origine": ["Original sound", "Sonido original", "So original"], "Bibliothèque": ["Library", "Biblioteca", "Biblioteca"], "Choisir un son enregistré": ["Choose a recorded sound", "Elegir un sonido grabado", "Tria un so enregistrat"], "Utiliser sur cette portion": ["Use on this pad", "Usar en este pad", "Utilitzar en aquest pad"], "Début": ["Start", "Inicio", "Inici"], "Fin": ["End", "Fin", "Final"], "Écouter tout": ["Play full recording", "Escuchar todo", "Escoltar-ho tot"], "Écouter la coupe": ["Play selection", "Escuchar el corte", "Escoltar el fragment"], "Réinitialiser la coupe": ["Reset trim", "Restablecer el corte", "Restablir el fragment"], "Choisis une portion et un fichier audio.": ["Choose a pad and an audio file.", "Elige un pad y un archivo de audio.", "Tria un pad i un fitxer d’àudio."], "Guide rapide de SÂAWAH": ["SÂAWAH quick guide", "Guía rápida de SÂAWAH", "Guia ràpida de SÂAWAH"], "Fermer": ["Close", "Cerrar", "Tancar"], "Tambour": ["Drum", "Tambor", "Tambor"], "Graines": ["Seeds", "Semillas", "Llavors"], "Rond": ["Round", "Redondo", "Rodó"], "Sec": ["Dry", "Seco", "Sec"], "Brillant": ["Bright", "Brillante", "Brillant"], "Cloche": ["Bell", "Campana", "Campana"], "Haut": ["Upper", "Arriba", "Part superior"], "Bas": ["Lower", "Abajo", "Part inferior"], "Fil": ["Wire", "Alambre", "Filferro"], "Glissé": ["Slide", "Deslizamiento", "Lliscament"], "Peau": ["Skin", "Piel", "Pell"], "Perles": ["Beads", "Cuentas", "Perles"], "Cauris": ["Cowries", "Cauríes", "Cauris"], "Muet": ["Mute", "Silencio", "Silenci"], "Volume": ["Volume", "Volumen", "Volum"], "Pitch": ["Pitch", "Tono", "To"], "Tester le son": ["Test sound", "Probar sonido", "Provar el so"], "Arrêter": ["Stop", "Detener", "Aturar"], "Terminer la prise": ["Finish recording", "Terminar la toma", "Acabar la presa"], "Arrêter la prise": ["Stop recording", "Parar la grabación", "Aturar la gravació"], "Personnalisée": ["Custom", "Personalizado", "Personalitzat"], "Audio activé": ["Sound on", "Sonido activado", "So activat"], "Activation audio en cours…": ["Enabling sound…", "Activando sonido…", "Activant el so…"], "Audio suspendu": ["Audio suspended", "Audio en pausa", "Àudio en pausa"], "Chargement…": ["Loading…", "Cargando…", "Carregant…"], "Prise terminée.": ["Recording finished.", "Toma terminada.", "Presa acabada."], "Joue sur le tambour. Les frappes se calent sur le pas le plus proche.": ["Play the drum. Hits snap to the nearest step.", "Toca el tambor. Los golpes se ajustan al paso más cercano.", "Toca el tambor. Els cops s’ajusten al pas més proper."], "Préparation du WAV stéréo…": ["Preparing stereo WAV…", "Preparando WAV estéreo…", "Preparant WAV estèreo…"], "Choisir un échantillon audio": ["Choose an audio sample", "Elegir una muestra de audio", "Tria una mostra d’àudio"], "Grille du séquenceur": ["Sequencer grid", "Rejilla del secuenciador", "Graella del seqüenciador"], "Réglages du pad sélectionné": ["Selected pad settings", "Ajustes del pad seleccionado", "Ajustos del pad seleccionat"], "Tambour et cloche, quinze zones de frappe et un glissé sur la peau": ["Drum and bell, fifteen strike zones and a skin slide", "Tambor y campana, quince zonas de golpe y un deslizamiento sobre la piel", "Tambor i campana, quinze zones de cop i un lliscament sobre la pell"], "Fil métallique SÂAWAH": ["SÂAWAH metal wire", "Alambre metálico SÂAWAH", "Filferro metàl·lic SÂAWAH"], "son d’origine": ["original sound", "sonido original", "so original"], "désactivé": ["off", "desactivado", "desactivat"], "Enregistrement en cours (8 s max)": ["Recording (8 s max)", "Grabando (máx. 8 s)", "Enregistrant (màx. 8 s)"], "Touche de nouveau le tambour pour activer le son.": ["Tap the drum again to enable sound.", "Toca otra vez el tambor para activar el sonido.", "Torna a tocar el tambor per activar el so."], "Impossible de lire cette frappe. Touche « Tester le son ».": ["This hit could not play. Tap Test sound.", "No se pudo reproducir el golpe. Toca Probar sonido.", "No s’ha pogut reproduir el cop. Toca Provar el so."], "Impossible de démarrer l’audio.": ["Could not start audio.", "No se pudo iniciar el audio.", "No s’ha pogut iniciar l’àudio."], "Son disponible pour cette session. Sauvegarde locale impossible.": ["Sound available for this session. Local save failed.", "Sonido disponible en esta sesión. No se pudo guardar localmente.", "So disponible en aquesta sessió. No s’ha pogut desar localment."], "Ce son ne peut pas être lu.": ["This sound cannot be played.", "No se puede reproducir este sonido.", "No es pot reproduir aquest so."], "Impossible de lire cet échantillon.": ["Could not play this sample.", "No se pudo reproducir esta muestra.", "No s’ha pogut reproduir aquesta mostra."], "Fichier trop volumineux. Maximum 20 Mo.": ["File too large. Maximum 20 MB.", "Archivo demasiado grande. Máximo 20 MB.", "Fitxer massa gran. Màxim 20 MB."], "Fichier illisible. Essaie un WAV ou un MP3.": ["Cannot read file. Try WAV or MP3.", "No se puede leer el archivo. Prueba con WAV o MP3.", "No es pot llegir el fitxer. Prova amb WAV o MP3."], "Enregistrement indisponible dans ce navigateur.": ["Recording unavailable in this browser.", "Grabación no disponible en este navegador.", "Gravació no disponible en aquest navegador."], "Autorise l’accès au micro dans Safari.": ["Allow microphone access in your browser.", "Permite el acceso al micrófono en el navegador.", "Permet l’accés al micròfon al navegador."], "L’enregistrement a été interrompu.": ["Recording was interrupted.", "Se interrumpió la grabación.", "S’ha interromput la gravació."], "Prise illisible. Réessaie en enregistrant un peu plus longtemps.": ["Could not read the take. Try recording for a little longer.", "No se pudo leer la toma. Prueba a grabar un poco más.", "No s’ha pogut llegir la presa. Prova d’enregistrar una mica més."], "Accès au micro refusé. Autorise le micro dans les réglages du site dans Safari.": ["Microphone access denied. Allow it in the site settings.", "Acceso al micrófono denegado. Permítelo en los ajustes del sitio.", "Accés al micròfon denegat. Permet-lo als ajustos del lloc."], "Impossible d’ouvrir le micro.": ["Could not open the microphone.", "No se pudo abrir el micrófono.", "No s’ha pogut obrir el micròfon."], "Audio suspendu. Réessaie avec le bouton.": ["Audio suspended. Try the button again.", "Audio en pausa. Vuelve a tocar el botón.", "Àudio en pausa. Torna a tocar el botó."], "Audio indisponible dans cet aperçu. Ouvre le tambour dans un navigateur.": ["Audio unavailable in this preview. Open the drum in a browser.", "Audio no disponible en esta vista previa. Abre el tambor en un navegador.", "Àudio no disponible en aquesta previsualització. Obre el tambor en un navegador."], "Vérifie le dossier choisi dans l’app Fichiers.": ["Check the selected folder in Files.", "Comprueba la carpeta elegida en Archivos.", "Comprova la carpeta triada a Fitxers."], "Le partage a échoué. Essaie le lien Télécharger.": ["Sharing failed. Try the download link.", "No se pudo compartir. Prueba el enlace de descarga.", "No s’ha pogut compartir. Prova l’enllaç de baixada."], "Ajoute au moins une frappe audible dans la grille avant d’exporter.": ["Add at least one audible hit to the grid before exporting.", "Añade al menos un golpe audible a la rejilla antes de exportar.", "Afegeix almenys un cop audible a la graella abans d’exportar."], "Le rendu audio est indisponible dans ce navigateur.": ["Audio rendering unavailable in this browser.", "La exportación de audio no está disponible en este navegador.", "L’exportació d’àudio no està disponible en aquest navegador."], "Le rendu WAV dépasse trois minutes. Réduis le nombre de répétitions.": ["WAV exceeds three minutes. Reduce the repeat count.", "El WAV supera los tres minutos. Reduce las repeticiones.", "El WAV supera els tres minuts. Redueix les repeticions."], "Pour choisir un dossier, touche « Enregistrer le MIDI dans Fichiers ».": ["To choose a folder, tap Save MIDI to Files.", "Para elegir una carpeta, toca Guardar MIDI en Archivos.", "Per triar una carpeta, toca Desar MIDI a Fitxers."], "Pour choisir un dossier, touche « Enregistrer le WAV dans Fichiers ».": ["To choose a folder, tap Save WAV to Files.", "Para elegir una carpeta, toca Guardar WAV en Archivos.", "Per triar una carpeta, toca Desar WAV a Fitxers."], "Fichier prêt. Touche « Télécharger le MIDI ».": ["File ready. Tap Download MIDI.", "Archivo listo. Toca Descargar MIDI.", "Fitxer a punt. Toca Baixar MIDI."], "Fichier prêt. Touche « Télécharger le WAV stéréo ».": ["File ready. Tap Download stereo WAV.", "Archivo listo. Toca Descargar WAV estéreo.", "Fitxer a punt. Toca Baixar WAV estèreo."], "Langue": ["Language", "Idioma", "Llengua"]};
+const words = {"Table de mixage":["Mixing console","Mesa de mezclas","Taula de mescles"],"Colonnes de mixage":["Mixer columns","Columnas de mezcla","Columnes de mescla"],"Importer un fichier MIDI":["Import MIDI file","Importar archivo MIDI","Importa un fitxer MIDI"],"Boucle et sons restaurés. Touche Lire.":["Loop and sounds restored. Tap Play.","Bucle y sonidos restaurados. Pulsa Reproducir.","Bucle i sons restaurats. Prem Reprodueix."],"Pour d’autres langues, utilise la traduction de page si ton navigateur la propose.":["For other languages, use page translation if your browser offers it.","Para otros idiomas, usa la traducción de páginas si tu navegador la ofrece.","Per a altres llengües, utilitza la traducció de pàgines si el navegador l’ofereix."],"Activer le son": ["Enable sound", "Activar sonido", "Activar el so"], "Repères : oui": ["Guides on", "Guías activadas", "Guies activades"], "Repères : non": ["Guides off", "Guías desactivadas", "Guies desactivades"], "Aide": ["Help", "Ayuda", "Ajuda"], "Plein écran": ["Full screen", "Pantalla completa", "Pantalla completa"], "Quitter le plein écran": ["Exit full screen", "Salir de pantalla completa", "Sortir de pantalla completa"], "Du centre au bord · Toum · Pa · Tac · Graines": ["From centre to rim · Toum · Pa · Tac · Seeds", "Del centro al borde · Toum · Pa · Tac · Semillas", "Del centre a la vora · Toum · Pa · Tac · Llavors"], "Maintiens le doigt sur un pad, puis suis son arc. ↻ plus fort · ↺ moins fort.": ["Hold a pad, then follow its arc. ↻ louder · ↺ softer.", "Mantén pulsado un pad y sigue su arco. ↻ más volumen · ↺ menos volumen.", "Mantén premut un pad i segueix-ne l’arc. ↻ més volum · ↺ menys volum."], "Touche le bouton pour entendre un Toum de test.": ["Tap the button to hear a test Toum.", "Toca el botón para escuchar un Toum de prueba.", "Toca el botó per sentir un Toum de prova."], "Séquenceur": ["Sequencer", "Secuenciador", "Seqüenciador"], "Mixage": ["Mixer", "Mezclador", "Mesclador"], "Lire": ["Play", "Reproducir", "Reproduir"], "Enregistrer": ["Record", "Grabar", "Enregistrar"], "Mesure": ["Time signature", "Compás", "Compàs"], "Numérateur": ["Numerator", "Numerador", "Numerador"], "Dénominateur": ["Denominator", "Denominador", "Denominador"], "Pas": ["Steps", "Pasos", "Passos"], "Clic : non": ["Click off", "Clic desactivado", "Clic desactivat"], "Clic : oui": ["Click on", "Clic activado", "Clic activat"], "Volume clic": ["Click volume", "Volumen del clic", "Volum del clic"], "Subdivision": ["Subdivision", "Subdivisión", "Subdivisió"], "Temps": ["Beat", "Pulso", "Pulsació"], "2 par temps": ["2 per beat", "2 por pulso", "2 per pulsació"], "3 par temps": ["3 per beat", "3 por pulso", "3 per pulsació"], "4 par temps": ["4 per beat", "4 por pulso", "4 per pulsació"], "Volume boucle": ["Loop volume", "Volumen del bucle", "Volum del bucle"], "Vider la grille": ["Clear grid", "Vaciar la rejilla", "Buidar la graella"], "Sur une case, glisse vers le haut ou le bas pour doser la frappe.": ["Drag up or down on a step to adjust its velocity.", "Desliza hacia arriba o abajo en una casilla para ajustar la intensidad del golpe.", "Llisca amunt o avall sobre una casella per ajustar la intensitat del cop."], "Réinitialiser": ["Reset", "Restablecer", "Restablir"], "Exporter": ["Export", "Exportar", "Exportar"], "Répétitions": ["Repeats", "Repeticiones", "Repeticions"], "Préparer le MIDI": ["Prepare MIDI", "Preparar MIDI", "Preparar MIDI"], "Préparer le WAV stéréo": ["Prepare stereo WAV", "Preparar WAV estéreo", "Preparar WAV estèreo"], "Compresseur": ["Compressor", "Compresor", "Compressor"], "Télécharger le MIDI": ["Download MIDI", "Descargar MIDI", "Baixar MIDI"], "Télécharger le WAV stéréo": ["Download stereo WAV", "Descargar WAV estéreo", "Baixar WAV estèreo"], "Enregistrer le MIDI dans Fichiers": ["Save MIDI to Files", "Guardar MIDI en Archivos", "Desar MIDI a Fitxers"], "Enregistrer le WAV dans Fichiers": ["Save WAV to Files", "Guardar WAV en Archivos", "Desar WAV a Fitxers"], "Glisse sur D ou R pour doser l’effet.": ["Drag on D or R to adjust the effect.", "Desliza sobre D o R para ajustar el efecto.", "Llisca sobre D o R per ajustar l’efecte."], "Portion": ["Pad", "Pad", "Pad"], "Enregistrer au micro": ["Record with mic", "Grabar con el micro", "Enregistrar amb el micro"], "Écouter": ["Listen", "Escuchar", "Escoltar"], "Son d’origine": ["Original sound", "Sonido original", "So original"], "Bibliothèque": ["Library", "Biblioteca", "Biblioteca"], "Choisir un son enregistré": ["Choose a recorded sound", "Elegir un sonido grabado", "Tria un so enregistrat"], "Utiliser sur cette portion": ["Use on this pad", "Usar en este pad", "Utilitzar en aquest pad"], "Début": ["Start", "Inicio", "Inici"], "Fin": ["End", "Fin", "Final"], "Écouter tout": ["Play full recording", "Escuchar todo", "Escoltar-ho tot"], "Écouter la coupe": ["Play selection", "Escuchar el corte", "Escoltar el fragment"], "Réinitialiser la coupe": ["Reset trim", "Restablecer el corte", "Restablir el fragment"], "Choisis une portion et un fichier audio.": ["Choose a pad and an audio file.", "Elige un pad y un archivo de audio.", "Tria un pad i un fitxer d’àudio."], "Guide rapide de SÂAWAH": ["SÂAWAH quick guide", "Guía rápida de SÂAWAH", "Guia ràpida de SÂAWAH"], "Fermer": ["Close", "Cerrar", "Tancar"], "Tambour": ["Drum", "Tambor", "Tambor"], "Graines": ["Seeds", "Semillas", "Llavors"], "Rond": ["Round", "Redondo", "Rodó"], "Sec": ["Dry", "Seco", "Sec"], "Brillant": ["Bright", "Brillante", "Brillant"], "Cloche": ["Bell", "Campana", "Campana"], "Haut": ["Upper", "Arriba", "Part superior"], "Bas": ["Lower", "Abajo", "Part inferior"], "Fil": ["Wire", "Alambre", "Filferro"], "Glissé": ["Slide", "Deslizamiento", "Lliscament"], "Peau": ["Skin", "Piel", "Pell"], "Perles": ["Beads", "Cuentas", "Perles"], "Cauris": ["Cowries", "Cauríes", "Cauris"], "Muet": ["Mute", "Silencio", "Silenci"], "Volume": ["Volume", "Volumen", "Volum"], "Pitch": ["Pitch", "Tono", "To"], "Tester le son": ["Test sound", "Probar sonido", "Provar el so"], "Arrêter": ["Stop", "Detener", "Aturar"], "Terminer la prise": ["Finish recording", "Terminar la toma", "Acabar la presa"], "Arrêter la prise": ["Stop recording", "Parar la grabación", "Aturar la gravació"], "Personnalisée": ["Custom", "Personalizado", "Personalitzat"], "Audio activé": ["Sound on", "Sonido activado", "So activat"], "Activation audio en cours…": ["Enabling sound…", "Activando sonido…", "Activant el so…"], "Audio suspendu": ["Audio suspended", "Audio en pausa", "Àudio en pausa"], "Chargement…": ["Loading…", "Cargando…", "Carregant…"], "Prise terminée.": ["Recording finished.", "Toma terminada.", "Presa acabada."], "Joue sur le tambour. Les frappes se calent sur le pas le plus proche.": ["Play the drum. Hits snap to the nearest step.", "Toca el tambor. Los golpes se ajustan al paso más cercano.", "Toca el tambor. Els cops s’ajusten al pas més proper."], "Préparation du WAV stéréo…": ["Preparing stereo WAV…", "Preparando WAV estéreo…", "Preparant WAV estèreo…"], "Choisir un échantillon audio": ["Choose an audio sample", "Elegir una muestra de audio", "Tria una mostra d’àudio"], "Grille du séquenceur": ["Sequencer grid", "Rejilla del secuenciador", "Graella del seqüenciador"], "Réglages du pad sélectionné": ["Selected pad settings", "Ajustes del pad seleccionado", "Ajustos del pad seleccionat"], "Tambour et cloche, quinze zones de frappe et un glissé sur la peau": ["Drum and bell, fifteen strike zones and a skin slide", "Tambor y campana, quince zonas de golpe y un deslizamiento sobre la piel", "Tambor i campana, quinze zones de cop i un lliscament sobre la pell"], "Fil métallique SÂAWAH": ["SÂAWAH metal wire", "Alambre metálico SÂAWAH", "Filferro metàl·lic SÂAWAH"], "son d’origine": ["original sound", "sonido original", "so original"], "désactivé": ["off", "desactivado", "desactivat"], "Enregistrement en cours (8 s max)": ["Recording (8 s max)", "Grabando (máx. 8 s)", "Enregistrant (màx. 8 s)"], "Touche de nouveau le tambour pour activer le son.": ["Tap the drum again to enable sound.", "Toca otra vez el tambor para activar el sonido.", "Torna a tocar el tambor per activar el so."], "Impossible de lire cette frappe. Touche « Tester le son ».": ["This hit could not play. Tap Test sound.", "No se pudo reproducir el golpe. Toca Probar sonido.", "No s’ha pogut reproduir el cop. Toca Provar el so."], "Impossible de démarrer l’audio.": ["Could not start audio.", "No se pudo iniciar el audio.", "No s’ha pogut iniciar l’àudio."], "Son disponible pour cette session. Sauvegarde locale impossible.": ["Sound available for this session. Local save failed.", "Sonido disponible en esta sesión. No se pudo guardar localmente.", "So disponible en aquesta sessió. No s’ha pogut desar localment."], "Ce son ne peut pas être lu.": ["This sound cannot be played.", "No se puede reproducir este sonido.", "No es pot reproduir aquest so."], "Impossible de lire cet échantillon.": ["Could not play this sample.", "No se pudo reproducir esta muestra.", "No s’ha pogut reproduir aquesta mostra."], "Fichier trop volumineux. Maximum 20 Mo.": ["File too large. Maximum 20 MB.", "Archivo demasiado grande. Máximo 20 MB.", "Fitxer massa gran. Màxim 20 MB."], "Fichier illisible. Essaie un WAV ou un MP3.": ["Cannot read file. Try WAV or MP3.", "No se puede leer el archivo. Prueba con WAV o MP3.", "No es pot llegir el fitxer. Prova amb WAV o MP3."], "Enregistrement indisponible dans ce navigateur.": ["Recording unavailable in this browser.", "Grabación no disponible en este navegador.", "Gravació no disponible en aquest navegador."], "Autorise l’accès au micro dans Safari.": ["Allow microphone access in your browser.", "Permite el acceso al micrófono en el navegador.", "Permet l’accés al micròfon al navegador."], "L’enregistrement a été interrompu.": ["Recording was interrupted.", "Se interrumpió la grabación.", "S’ha interromput la gravació."], "Prise illisible. Réessaie en enregistrant un peu plus longtemps.": ["Could not read the take. Try recording for a little longer.", "No se pudo leer la toma. Prueba a grabar un poco más.", "No s’ha pogut llegir la presa. Prova d’enregistrar una mica més."], "Accès au micro refusé. Autorise le micro dans les réglages du site dans Safari.": ["Microphone access denied. Allow it in the site settings.", "Acceso al micrófono denegado. Permítelo en los ajustes del sitio.", "Accés al micròfon denegat. Permet-lo als ajustos del lloc."], "Impossible d’ouvrir le micro.": ["Could not open the microphone.", "No se pudo abrir el micrófono.", "No s’ha pogut obrir el micròfon."], "Audio suspendu. Réessaie avec le bouton.": ["Audio suspended. Try the button again.", "Audio en pausa. Vuelve a tocar el botón.", "Àudio en pausa. Torna a tocar el botó."], "Audio indisponible dans cet aperçu. Ouvre le tambour dans un navigateur.": ["Audio unavailable in this preview. Open the drum in a browser.", "Audio no disponible en esta vista previa. Abre el tambor en un navegador.", "Àudio no disponible en aquesta previsualització. Obre el tambor en un navegador."], "Vérifie le dossier choisi dans l’app Fichiers.": ["Check the selected folder in Files.", "Comprueba la carpeta elegida en Archivos.", "Comprova la carpeta triada a Fitxers."], "Le partage a échoué. Essaie le lien Télécharger.": ["Sharing failed. Try the download link.", "No se pudo compartir. Prueba el enlace de descarga.", "No s’ha pogut compartir. Prova l’enllaç de baixada."], "Ajoute au moins une frappe audible dans la grille avant d’exporter.": ["Add at least one audible hit to the grid before exporting.", "Añade al menos un golpe audible a la rejilla antes de exportar.", "Afegeix almenys un cop audible a la graella abans d’exportar."], "Le rendu audio est indisponible dans ce navigateur.": ["Audio rendering unavailable in this browser.", "La exportación de audio no está disponible en este navegador.", "L’exportació d’àudio no està disponible en aquest navegador."], "Le rendu WAV dépasse trois minutes. Réduis le nombre de répétitions.": ["WAV exceeds three minutes. Reduce the repeat count.", "El WAV supera los tres minutos. Reduce las repeticiones.", "El WAV supera els tres minuts. Redueix les repeticions."], "Pour choisir un dossier, touche « Enregistrer le MIDI dans Fichiers ».": ["To choose a folder, tap Save MIDI to Files.", "Para elegir una carpeta, toca Guardar MIDI en Archivos.", "Per triar una carpeta, toca Desar MIDI a Fitxers."], "Pour choisir un dossier, touche « Enregistrer le WAV dans Fichiers ».": ["To choose a folder, tap Save WAV to Files.", "Para elegir una carpeta, toca Guardar WAV en Archivos.", "Per triar una carpeta, toca Desar WAV a Fitxers."], "Fichier prêt. Touche « Télécharger le MIDI ».": ["File ready. Tap Download MIDI.", "Archivo listo. Toca Descargar MIDI.", "Fitxer a punt. Toca Baixar MIDI."], "Fichier prêt. Touche « Télécharger le WAV stéréo ».": ["File ready. Tap Download stereo WAV.", "Archivo listo. Toca Descargar WAV estéreo.", "Fitxer a punt. Toca Baixar WAV estèreo."], "Langue": ["Language", "Idioma", "Llengua"]};
 const helpTranslations = [["Tap Enable sound. Play the centre for bass, the rings for drier tones and the rim for seeds.", "Toca Activar sonido. Golpea el centro para los graves, los anillos para sonidos más secos y el borde para las semillas.", "Toca Activar el so. Colpeja el centre per als greus, els anells per als sons més secs i la vora per a les llavors."], ["Brush the rim to play the beads. Slide vertically upwards for a higher pitch and downwards for a lower pitch. You can also play the bell and the wire lettering.", "Roza el borde para hacer sonar las cuentas. Desliza hacia arriba para subir el tono y hacia abajo para bajarlo. También puedes tocar la campana y las letras de alambre.", "Frega la vora per fer sonar les perles. Llisca amunt per apujar el to i avall per abaixar-lo. També pots tocar la campana i les lletres de filferro."], ["Pressure controls the strength of a hit. If your screen only reports contact size, try the fingertip for soft hits and the finger pad for louder hits. Some devices give a fixed level.", "La presión controla la intensidad del golpe. Si la pantalla solo detecta el área de contacto, toca con la punta del dedo para un golpe suave y con la yema para uno más fuerte. Algunos dispositivos dan un nivel fijo.", "La pressió controla la intensitat del cop. Si la pantalla només detecta l’àrea de contacte, toca amb la punta del dit per a un cop suau i amb el tou per a un cop més fort. Alguns dispositius donen un nivell fix."], ["Tap a zone to select its track in the sequencer and sampler. Turn on Guides to see that pad’s settings.", "Toca una zona para seleccionarla en el secuenciador y el sampler. Activa las guías para ver los ajustes del pad.", "Toca una zona per seleccionar-la al seqüenciador i al sampler. Activa les guies per veure els ajustos del pad."], ["To set one pad’s volume, hold its arc briefly. Without lifting your finger, follow the arc clockwise ↻ to turn it up or anticlockwise ↺ to turn it down. Lift your finger to keep the setting.", "Para ajustar el volumen de un pad, mantén pulsado su arco un instante. Sin levantar el dedo, sigue el arco en el sentido de las agujas del reloj ↻ para subir el volumen o en sentido contrario ↺ para bajarlo. Suelta para conservar el ajuste.", "Per ajustar el volum d’un pad, mantén premut el seu arc un instant. Sense aixecar el dit, segueix l’arc en el sentit de les agulles del rellotge ↻ per apujar el volum o en sentit contrari ↺ per abaixar-lo. Aixeca el dit per conservar l’ajust."], ["Choose the tempo, time signature and step count. Tap a cell to add a hit. Drag up or down on the cell to adjust its velocity.", "Elige el tempo, el compás y el número de pasos. Toca una casilla para añadir un golpe. Desliza hacia arriba o abajo para ajustar su intensidad.", "Tria el tempo, el compàs i el nombre de passos. Toca una casella per afegir un cop. Llisca amunt o avall per ajustar-ne la intensitat."], ["Tap Play to hear the loop or Record to add what you play on the drum. Tap Finish recording when you are done.", "Toca Reproducir para escuchar el bucle o Grabar para añadir lo que toques en el tambor. Toca Terminar la toma al acabar.", "Toca Reproduir per escoltar el bucle o Enregistrar per afegir-hi el que toquis al tambor. Toca Acabar la presa quan hagis acabat."], ["Open Mixer for the track controls. The dot mutes the track. D adjusts delay, R reverb and P pitch. In Export, choose how many repeats to include in your stereo WAV or MIDI file.", "Abre Mezclador para ver los controles de pista. El punto silencia la pista. D ajusta el delay, R la reverberación y P el tono. En Exportar, elige cuántas repeticiones incluir en el WAV estéreo o el MIDI.", "Obre Mesclador per veure els controls de pista. El punt silencia la pista. D ajusta el delay, R la reverberació i P el to. A Exportar, tria quantes repeticions vols incloure al WAV estèreo o al MIDI."], ["Tap a pad or select it under Pad. Import an audio file or tap Record with mic.", "Toca un pad o selecciónalo en Pad. Importa un archivo de audio o toca Grabar con el micro.", "Toca un pad o selecciona’l a Pad. Importa un fitxer d’àudio o toca Enregistrar amb el micro."], ["Move Start and End to isolate a sound. Compare Play full recording and Play selection before playing the pad.", "Mueve Inicio y Fin para aislar un sonido. Compara Escuchar todo y Escuchar el corte antes de tocar el pad.", "Mou Inici i Final per aïllar un so. Compara Escoltar-ho tot i Escoltar el fragment abans de tocar el pad."], ["To reuse a sound on another pad, select the new pad, choose the sound in Library and tap Use on this pad.", "Para reutilizar un sonido en otro pad, selecciona el nuevo pad, elige el sonido en Biblioteca y toca Usar en este pad.", "Per reutilitzar un so en un altre pad, selecciona el nou pad, tria el so a Biblioteca i toca Utilitzar en aquest pad."]];
 const guideItems = [...document.querySelectorAll('.help-body li')];
 const frenchGuide = guideItems.map(item => item.innerHTML);
